@@ -1,0 +1,1 @@
+python bot.py > tweets.txt && python sorteador.py
