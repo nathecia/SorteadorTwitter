@@ -1,33 +1,31 @@
-from TwitterSearch import *
+import participantes
+import random 
 
-consumer_key = 'pO2AZzVpZqg0JLphPfBbAYLfF'
-consumer_secret = 'qERo7rHc4YmO4u3LySeh7rVEdUSbW4C5d3MkmGg23MRuOwx50r'
-access_token = '237497963-5fcUBCDgDEArEJk3w2A2dNmI1lovytFrdyXFhlCw'
-access_secret = 'ZDYNX5ULWEQtpXWBdldRZMjZjhjsgKK7T0MoMrbLQx2iW'
+lista = participantes.get()
+sorteados = []
 
-users = []
+def sortear ():
+  while not len(lista) == len(sorteados):
+    selecionado = random.randrange (0,len(lista),1)
 
-try:
-    tso = TwitterSearchOrder() # create a TwitterSearchOrder object
-    tso.set_keywords(['#poticon2017']) # let's define all words we would like to have a look for
-    tso.set_include_entities(False) # and don't give us all those entity information
+    if not selecionado in sorteados:
+      return selecionado
 
-    # it's about time to create a TwitterSearch object with our secret tokens
-    ts = TwitterSearch(
-        consumer_key = consumer_key,
-        consumer_secret = consumer_secret,
-        access_token = access_token,
-        access_token_secret = access_secret
-     )
+  return None
 
-     # this is where the fun actually starts :)
-    for tweet in ts.search_tweets_iterable(tso):
-        if not tweet['user']['screen_name'] in users:
-        	users.append(tweet['user']['screen_name'])
+while True:
+  print "Numero total de twites: {}".format(len(lista) - len(sorteados))
+  l = raw_input("Sortear: s\nSair: q\n>> ")
+  if (l == "q"):
+    break
+  selecionado = sortear()
+  
+  if not selecionado == None:
+    sorteados.append(selecionado)
 
-    for user in users:
-    	if not user == 'potilivre':
-    		print user
-
-except TwitterSearchException as e: # take care of all those ugly errors if there are some
-    print(e)
+    print "\n>>>>>>>>>>>"
+    print lista[selecionado]
+    print "<<<<<<<<<<<\n"
+  else:
+    print "Todos os participantes foram selecionados!"
+    break
